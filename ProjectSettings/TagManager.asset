@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Bound
+  - Poop
+  - Creature
+  - Proyectile
+  - Limit
+  - Bunkers
   layers:
   - Default
   - TransparentFX
