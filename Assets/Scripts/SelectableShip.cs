@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectableShip : MonoBehaviour
 {
-    public GameObject playerShips;
+    public GameObject playerShips; //Ships on the Player gameobject
     public GameObject associatedShip;
 
     private void OnTriggerEnter(Collider other)

@@ -24,7 +24,7 @@ public class CreaturesManager : MonoBehaviour
     private float movementSpeed = 0.5f;
 
     //For fire config
-    private float fireRate = 1f;
+    private float fireRate = 2f;
     public GameObject proyectile;
     private GameObject chosenCreature;
     [SerializeField]
@@ -42,6 +42,7 @@ public class CreaturesManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
 
+        //Grid organization
         for (int col = 0; col < this.columns; ++col)
         {
             columnsCreatures.Add(new List<GameObject>());
@@ -113,7 +114,7 @@ public class CreaturesManager : MonoBehaviour
 
     public void KilledCreature()
     {
-        movementSpeed += 0.4f;
+        movementSpeed += 0.2f;
         creaturesTotal -= 1;
         if (creaturesTotal <= 0)
         {
