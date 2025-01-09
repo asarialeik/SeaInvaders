@@ -30,19 +30,27 @@ public class Proyectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player") && !other.CompareTag("Limit"))
+        if (other.CompareTag("Creature") || other.CompareTag("Bound") || other.CompareTag("Proyectile"))
         {
-            if (specialProyectile == true && !other.CompareTag("Bound"))
+            if (specialProyectile == true && other.CompareTag("Creature"))
             {
-                area = this.gameObject.transform.GetChild(0).gameObject;
-                area.SetActive(true);
+                Destroy(this.GetComponent<BoxCollider>());
+                Destroy(this.GetComponent<Rigidbody>());
                 proyectileShouldMove = false;
+                area = this.gameObject.transform.GetChild(0).gameObject;
+                LeanTween.scale(area, new Vector3(0, 0, 0), 0f);
+                area.SetActive(true);
+                LeanTween.scale(area, new Vector3(17f, 6f, 2f), 0.35f).setEase(LeanTweenType.easeInOutCirc);
                 StartCoroutine(ShootVisualCooldown());
             }
             else
             {
                 Destroy(this.gameObject);
             }
+        }
+        else if (other.CompareTag("ShipModel"))
+        {
+            Destroy(this.gameObject);
         }
     }
 

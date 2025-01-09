@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public GameObject button1;
     public GameObject button2;
     public GameObject button3;
+    public GameObject button4;
     public GameObject gameOver;
     public GameObject gameOverMenu;
     public GameObject winning;
@@ -36,6 +37,9 @@ public class GameManager : MonoBehaviour
     //Score
     private int score;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI highScoreText;
+    
+    public TextMeshProUGUI recordedHighScoreText;
     
     private void Start()
     {
@@ -75,6 +79,7 @@ public class GameManager : MonoBehaviour
 
     public void MainMenuStarted()
     {
+        LeanTween.moveY(menu.GetComponent<RectTransform>(), -1205f, 0f);
         LeanTween.alpha(title.GetComponent<RectTransform>(), 0, 0f);
         LeanTween.alpha(button1.GetComponent<RectTransform>(), 0, 0f);
         LeanTween.alpha(button2.GetComponent<RectTransform>(), 0, 0f);
@@ -82,6 +87,7 @@ public class GameManager : MonoBehaviour
         button1.SetActive(false);
         button2.SetActive(false);
         button3.SetActive(false);
+        button4.SetActive(false);
         LeanTween.moveY(menu.GetComponent<RectTransform>(), 0, 1.5f).setEase(LeanTweenType.easeInOutQuint).setOnComplete(() =>
         {
             LeanTween.alpha(title.GetComponent<RectTransform>(), 1, 1.5f).setEase(LeanTweenType.easeInOutQuint).setOnComplete(() =>
@@ -93,7 +99,11 @@ public class GameManager : MonoBehaviour
                     LeanTween.alpha(button2.GetComponent<RectTransform>(), 1, 1f).setEase(LeanTweenType.easeInCirc).setOnComplete(() =>
                     {
                         button3.SetActive(true);
-                        LeanTween.alpha(button3.GetComponent<RectTransform>(), 1, 1f).setEase(LeanTweenType.easeInCirc);
+                        LeanTween.alpha(button3.GetComponent<RectTransform>(), 1, 1f).setEase(LeanTweenType.easeInCirc).setOnComplete(() =>
+                        {
+                            button4.SetActive(true);
+                            LeanTween.alpha(button4.GetComponent<RectTransform>(), 1, 1f).setEase(LeanTweenType.easeInCirc);
+                        });
                     });
                 });
             });
@@ -118,7 +128,13 @@ public class GameManager : MonoBehaviour
         LeanTween.scale(winningMenu.GetComponent<RectTransform>(), new Vector3(1, 1, 1), 0.5f).setEase(LeanTweenType.easeInOutBack);
         winning.SetActive(true);
         playing = false;
-        scoreText.text = ("Score: " + score.ToString());
+        scoreText.text = ("Current score: " + score.ToString());
+        if (PlayerPrefs.GetInt("High Score") < score)
+        {
+            PlayerPrefs.SetInt("High Score", score);
+            PlayerPrefs.Save();
+        }
+        highScoreText.text = ("High score: " + PlayerPrefs.GetInt("High Score").ToString());
     }
 
     void SpawnRaymond()
@@ -148,5 +164,10 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void Records()
+    {
+        recordedHighScoreText.text = ("High score: " + PlayerPrefs.GetInt("High Score").ToString());
     }
 }

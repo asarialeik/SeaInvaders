@@ -14,7 +14,7 @@ public class Poop : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Creature") && !other.CompareTag("Limit"))
+        if (!other.CompareTag("Creature") && !other.CompareTag("Limit") && !other.CompareTag("ShockWave"))
         {
             Destroy(this.gameObject);
         }
