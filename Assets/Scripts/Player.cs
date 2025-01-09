@@ -6,9 +6,15 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     //For fire config
+    
+    //Normal Fire
     public GameObject proyectile;
     public float shootCooldown;
     public bool canShoot = true;
+    //Special Fire
+    public GameObject specialProyectile;
+    private float specialShootCooldown = 5f;
+    public bool canShootSpecial = true;
 
     //For movement
     public float playerSpeed;
@@ -52,6 +58,16 @@ public class Player : MonoBehaviour
                 StartCoroutine(ResetShootCooldown());
             }
         }
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            if (canShootSpecial == true)
+            {
+                canShootSpecial = false;
+                SpecialFire();
+                StartCoroutine(ResetSpecialShootCooldown());
+            }
+        }
     }
 
     public void Fire()
@@ -59,10 +75,21 @@ public class Player : MonoBehaviour
         Instantiate(this.proyectile, this.transform.position, Quaternion.identity);
     }
 
+    public void SpecialFire()
+    {
+        Instantiate(this.specialProyectile, this.transform.position, Quaternion.identity);
+    }
+
     public IEnumerator ResetShootCooldown()
     {
         yield return new WaitForSeconds(shootCooldown);
         canShoot = true;
+    }
+
+    public IEnumerator ResetSpecialShootCooldown()
+    {
+        yield return new WaitForSeconds(specialShootCooldown);
+        canShootSpecial = true;
     }
 
     void OnBoolChanged()
